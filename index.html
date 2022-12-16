@@ -1,49 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Interactive rating component</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
+    <title>Frontend Mentor | Interactive rating component</title>
 
-  <!-- Rating state start -->
+    <style>
+      /* general styles */
 
-  How did we do?
+      body {
+        border: 0;
+        margin: 0 auto;
+        height: 100vh;
+        font-family: "Overpass", sans-serif;
+        background-color: hsl(216, 12%, 8%);
+        box-sizing: content-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-  Please let us know how we did with your support request. All feedback is appreciated 
-  to help us improve our offering!
+      h1 {
+        margin-bottom: 0.5em;
+        color: hsl(0, 0%, 100%);
+        font-size: 1.6rem;
+      }
 
-  1 2 3 4 5
+      p {
+        line-height: 1.7em;
+        margin-top: 0;
+        font-size: 0.9rem;
+        color: hsl(217, 12%, 63%);
+      }
 
-  Submit
+      .star {
+        background-color: hsl(210, 32%, 22%);
+        border-radius: 50%;
+        padding: 1em;
+      }
 
-  <!-- Rating state end -->
+      /* style for container with both sides of ranking */
 
-  <!-- Thank you state start -->
+      .ratingBox {
+        background-color: hsl(213, 19%, 18%);
+        padding: 2.4em;
+        border-radius: 1.5em;
+        margin: 2em auto;
+        width: 320px;
+        font-size: 0.9em;
+      }
 
-  You selected <!-- Add rating here --> out of 5
+      /* style for first side of ranking */
+      .chooseBox {
+        display: block;
+      }
 
-  Thank you!
+      /* style for circles with numbers */
 
-  We appreciate you taking the time to give a rating. If you ever need more support, 
-  don’t hesitate to get in touch!
+      .circles {
+        display: flex;
+        justify-content: space-between;
+        margin: 1.7em 0;
+        font-weight: bold;
+        color: hsl(217, 12%, 63%);
+      }
 
-  <!-- Thank you state end -->
+      .circle {
+        background-color: hsl(210, 32%, 22%);
+        border-radius: 50%;
+        padding: 0.8em 1.2em;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+      }
 
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+      .circle:active {
+        background-color: hsl(210, 32%, 22%);
+        color: hsl(0, 0%, 100%);
+      }
+
+      .circle:hover {
+        background-color: hsl(25, 97%, 53%);
+        color: hsl(0, 0%, 100%);
+      }
+
+      /* class for JavaScript with chosen circle */
+
+      .chosen {
+        background-color: hsl(217, 12%, 63%);
+        color: hsl(0, 0%, 100%);
+      }
+
+      /* style for button */
+
+      .chooseBox button {
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: hsl(0, 0%, 100%);
+        background-color: hsl(25, 97%, 53%);
+        border: none;
+        width: 90%;
+        align-self: center;
+        padding: 1em;
+        border-radius: 2em;
+        display: block;
+        margin: 0 auto;
+        font-weight: 700;
+      }
+
+      .chooseBox button:hover {
+        background-color: hsl(0, 0%, 100%);
+        color: hsl(25, 97%, 53%);
+      }
+
+      .chooseBox button:active {
+        cursor: pointer;
+      }
+
+      /* style for second side of rating */
+      .thankyou {
+        display: none;
+        text-align: center;
+      }
+      .thankyou img {
+        margin-bottom: 1em;
+      }
+
+      /* style for resultat bar */
+
+      .resultat {
+        background-color: hsl(210, 32%, 22%);
+        color: hsl(25, 97%, 53%);
+        border-radius: 1em;
+        padding: 0.4em 1.3em;
+        display: inline-block;
+        margin-bottom: 0.7em;
+      }
+
+      /* do not display form's check boxes */
+
+      .circle input {
+        display: none;
+      }
+      .resultat input {
+        display: none;
+      }
+
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+        color: hsl(210, 32%, 22%);
+      }
+      .attribution a {
+        color: hsl(217, 12%, 63%);
+      }
+
+      @media screen and (max-width: 700px) and (min-width: 320px) {
+        .ratingBox {
+          display: flex;
+          padding: 1.9em;
+          width: 290px;
+          font-size: 0.7rem;
+        }
+        h1 {
+          font-size: 1.4rem;
+        }
+        .star {
+          width: 0.9rem;
+        }
+        .circle {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- Container to display both sections -->
+      <div class="ratingBox">
+        <!-- First side of the rating box -->
+        <div class="chooseBox">
+          <span
+            ><img src="images/icon-star.svg" alt="star" class="star"
+          /></span>
+          <h1>How did we do?</h1>
+          <p>
+            Please let us know how we did with your support request. All
+            feedback is appreciated to help us improve our offering!
+          </p>
+          <!-- Form elements to choose and display in the second side of rating box-->
+          <div class="circles">
+            <div class="circle">
+              <input type="radio" id="1" name="1" value="1" />
+              <label for="1">1</label>
+            </div>
+            <div class="circle">
+              <input type="radio" id="2" name="2" value="2" />
+              <label for="2">2</label>
+            </div>
+            <div class="circle">
+              <input type="radio" id="3" name="3" value="3" />
+              <label for="3">3</label>
+            </div>
+            <div class="circle">
+              <input type="radio" id="4" name="4" value="4" />
+              <label for="4">4</label>
+            </div>
+            <div class="circle">
+              <input type="radio" id="5" name="5" value="5" />
+              <label for="5">5</label>
+            </div>
+          </div>
+          <button type="submit" id="button">Submit</button>
+        </div>
+        <!-- Second side of the rating box -->
+        <div class="thankyou">
+          <img src="images/illustration-thank-you.svg" alt="thank you" />
+          <div>
+            <!-- resultat bar of chosen element  -->
+            <span class="resultat"
+              >You selected <span id="resultat"></span> out of 5</span
+            >
+          </div>
+          <h1>Thank you!</h1>
+          <p>
+            We appreciate you taking the time to give a rating. If you ever need
+            more support, don’t hesitate to get in touch!
+          </p>
+        </div>
+      </div>
+
+      <div class="attribution">
+        Challenge by
+        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+          >Frontend Mentor</a
+        >. Coded by
+        <a href="https://www.frontendmentor.io/profile/CookieMonsterSopot"
+          >Cookie Monster</a
+        >.
+      </div>
+    </main>
+    <script>
+      let chooseBox = document.querySelector(".chooseBox"); // display first side of the rating box //
+      let circles = document.querySelectorAll(".circle"); // elements to choose and display in resultat section //
+      let button = document.getElementById("button"); // button //
+      let thankyou = document.querySelector(".thankyou"); // display second siide of the rating box with resultat //
+      let span = document.getElementById("resultat"); // empty span to display chosen element //
+
+      // iteration throug all elements in circles //
+      for (let i = 0; i < circles.length; i++) {
+        // listening for clicked circle //
+        circles[i].addEventListener("click", () => {
+          let resultat = circles[i].innerHTML;
+          // iteration throug circles to check if class "chosen" is present //
+          // only one element must be selected //
+          for (let i = 0; i < circles.length; i++) {
+            circles[i].classList.contains("chosen");
+            circles[i].classList.remove("chosen");
+          }
+          // if class "chosen" is not present, then add class "chosen" on selected circle//
+          circles[i].classList.add("chosen");
+
+          button.addEventListener("click", () => {
+            chooseBox.style.display = "none";
+            thankyou.style.display = "block";
+            span.innerHTML = resultat;
+          });
+        });
+      }
+    </script>
+  </body>
 </html>

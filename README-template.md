@@ -32,7 +32,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [https://cookiemonstersopot.github.io/interactive-rating-component/]
+- Live Site URL: [Interactive rating component](https://cookiemonstersopot.github.io/interactive-rating-component/)
 
 ## My process
 
